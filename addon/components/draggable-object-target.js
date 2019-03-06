@@ -1,11 +1,18 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import Droppable from 'ember-drag-drop/mixins/droppable';
 import { normalizeEvent } from 'ember-jquery-legacy';
 
 export default Component.extend(Droppable, {
+  dragCoordinator: service(),
   classNameBindings: ['overrideClass'],
   overrideClass: 'draggable-object-target',
   isOver: false,
+  sortingScope: 'drag-objects',
+
+  validateDragEvent() {
+    return this.get('dragCoordinator').hasSameSortingScope(this);
+  },
 
   handlePayload(payload, event) {
     let obj = this.get('coordinator').getObject(payload,{target: this});

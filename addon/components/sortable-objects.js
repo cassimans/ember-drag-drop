@@ -46,11 +46,13 @@ export default Component.extend( {
   },
 
   drop(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.set('dragCoordinator.sortComponentController', undefined);
-    if (this.get('enableSort') && this.get('sortEndAction')) {
-      this.get('sortEndAction')(event);
+    if (this.get('dragCoordinator').hasSameSortingScope(this)) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.set('dragCoordinator.sortComponentController', undefined);
+      if (this.get('enableSort') && this.get('sortEndAction')) {
+        this.get('sortEndAction')(event);
+      }
     }
   }
 });

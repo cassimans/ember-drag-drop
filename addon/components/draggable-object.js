@@ -89,7 +89,7 @@ export default Component.extend({
       next(()=> {
         this.dragStartHook(event);
       });
-      this.get('dragCoordinator').dragStarted(obj, event, this);
+      this.get('dragCoordinator').dragStarted(obj, event, this, this.get('sortingScope'));
     }
 
     if( this.get('dragStartAction')) {

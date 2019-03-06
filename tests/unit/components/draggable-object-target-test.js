@@ -5,7 +5,8 @@ import { test, moduleForComponent } from 'ember-qunit';
 //import MockDataTransfer from '../../helpers/data-transfer';
 
 moduleForComponent("draggable-object-target", {
-  unit: true
+  unit: true,
+  needs: ['service:drag-coordinator'], //TODO: this should be an inject as needs will be deprecated
 });
 
 
