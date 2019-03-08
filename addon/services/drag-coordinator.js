@@ -23,7 +23,9 @@ export default Service.extend({
   sortComponentController: null,
   currentDragObject: null,
   currentDragEvent: null,
+  // Will be destroyed if Moved to a different sortable-objects component
   currentDragItem: null,
+  currentDragScope: null,
   currentOffsetItem: null,
   isMoving: false,
   lastEvent: null,
@@ -52,11 +54,11 @@ export default Service.extend({
     this.get('sortComponents')[sortingScope].removeObject(component);
   },
 
-  dragStarted(object, event, emberObject, scope) {
+  dragStarted(object, event, emberObject) {
     this.set('currentDragObject', object);
     this.set('currentDragEvent', event);
     this.set('currentDragItem', emberObject);
-    this.set('currentDragScope', scope);
+    this.set('currentDragScope', emberObject.get('sortingScope'));
     event.dataTransfer.effectAllowed = 'move';
   },
 
@@ -152,14 +154,13 @@ export default Service.extend({
 
   moveElements(overElement) {
     const isEnabled = Object.keys(this.get('sortComponents')).length;
-    const draggingItem = this.get('currentDragItem');
-    const sortComponents = this.get('sortComponents')[draggingItem.get('sortingScope')];
+    const sortComponents = this.get('sortComponents')[this.get('currentDragScope')];
 
     if (!isEnabled) {
       return;
     }
 
-    this.moveObjectPositions(draggingItem.get('content'), overElement.get('content'), sortComponents);
+    this.moveObjectPositions(this.get('currentDragObject'), overElement.get('content'), sortComponents);
 
     sortComponents.forEach((component) => {
       component.rerender();
