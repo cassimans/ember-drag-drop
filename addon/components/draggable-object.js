@@ -38,8 +38,11 @@ export default Component.extend({
   },
 
   didInsertElement() {
-    if(this.get('dragCoordinator').hasSameSortingObject(this)) {
-      this.element.style.opacity = '0.5';
+    if(this.get('dragCoordinator').hasSameDragObject(this) && !this.get('dragCoordinator').hasSameDragItem(this)) {
+      this.get('dragCoordinator').dragItemChanged(this);
+      next(()=> {
+        this.dragStartHook({target: this.element});
+      });
     }
     scheduleOnce('afterRender', () => {
       //if there is a drag handle watch the mouse up and down events to trigger if drag is allowed

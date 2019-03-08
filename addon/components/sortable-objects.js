@@ -49,6 +49,10 @@ export default Component.extend( {
     if (this.get('dragCoordinator').hasSameSortingScope(this)) {
       event.stopPropagation();
       event.preventDefault();
+      if (this.get('dragCoordinator.currentDragItem')) {
+        this.get('dragCoordinator.currentDragItem').dragEndHook(event);
+      }
+      this.get('dragCoordinator').dragEnded();
       this.set('dragCoordinator.sortComponentController', undefined);
       if (this.get('enableSort') && this.get('sortEndAction')) {
         this.get('sortEndAction')(event);

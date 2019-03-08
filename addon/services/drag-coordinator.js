@@ -54,6 +54,11 @@ export default Service.extend({
     this.get('sortComponents')[sortingScope].removeObject(component);
   },
 
+  dragItemChanged(emberObject) {
+    this.set('currentDragItem', emberObject);
+    this.set('currentDragScope', emberObject.get('sortingScope'));
+  },
+
   dragStarted(object, event, emberObject) {
     this.set('currentDragObject', object);
     this.set('currentDragEvent', event);
@@ -74,8 +79,12 @@ export default Service.extend({
     return this.get('currentDragScope') === emberObject.get('sortingScope');
   },
 
-  hasSameSortingObject(emberObject) {
+  hasSameDragObject(emberObject) {
     return this.get('currentDragObject') === emberObject.get('content');
+  },
+
+  hasSameDragItem(emberObject) {
+    return this.get('currentDragItem') === emberObject;
   },
 
   draggingOver(event, emberObject) {
