@@ -74,6 +74,10 @@ export default Service.extend({
     return this.get('currentDragScope') === emberObject.get('sortingScope');
   },
 
+  hasSameSortingObject(emberObject) {
+    return this.get('currentDragObject') === emberObject.get('content');
+  },
+
   draggingOver(event, emberObject) {
     const normalizedEvent = normalizeEvent(event);
     const currentOffsetItem = this.get('currentOffsetItem');
